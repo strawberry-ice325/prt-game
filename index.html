@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>请选择你要养的小宠物</title>
+    <style>
+       *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+        body{
+            background-image: url('./images/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            padding: 8px;
+            margin:0;
+        }
+        .phone-frame{
+            width: 100%;
+            max-width: 380px;
+            background-color: rgba(255, 169, 196,0.1);
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            padding: 24px 20px 32px 20px;
+            margin:0 auto;
+            touch-action: manipulation;
+        }
+        /*标题：选择你要养的小宠物~*/
+        .page-title{
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            color:#ee77ad;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            
+        }
+        .pet-circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;          /* 变成正圆 */
+    overflow: hidden;             /* 超出圆形的部分隐藏 */
+    margin: 8px auto 12px auto;   /* 水平居中 */
+    border: 3px solid #f5dbb1;    /* 暖色边框 */
+    background-color: #f9f3e9;    /* 图片加载前的底色 */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    flex-shrink: 0;
+}
+.pet-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;           /* 图片覆盖整个圆，不变形 */
+    display: block;
+}
+.wing-button {
+    text-align: center;
+    margin: 12px 0 18px 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent; /* 去掉移动端点击灰色背景 */
+}
+.wing-icon {
+    width: 54px;                 /* 根据你的图片调整大小 */
+    height: auto;
+    transition: transform 0.1s;
+}
+
+.description-box {
+    background-color: #f6f2ee;
+    border-radius: 24px;
+    padding: 18px 16px;
+    margin-top: 16px;
+    border: 1px solid #f0e3d5;
+    color: #2e241b;
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 90px;
+}
+.hint {
+    text-align: center;
+    color: #ab8e72;
+    font-size: 13px;
+    margin-top: 14px;
+}
+.pet-row {
+    display: flex;
+    align-items: center;        /* 垂直居中 */
+    justify-content: center;    /* 水平居中（左右翅膀自动撑开） */
+    gap: 10px;                  /* 翅膀和头像的间距，可调 */
+    margin: 20px 0;
+}
+.wing {
+    flex-shrink: 0;             /* 防止被压缩 */
+    width: 50px;                /* 根据你的翅膀图片宽度调整 */
+    text-align: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.wing-icon {
+    width: 100%;                /* 占满容器宽度 */
+    height: auto;
+    transition: transform 0.1s;
+}
+
+.wing:active .wing-icon {
+    transform: scale(0.9);      /* 点击缩小效果 */
+}
+    </style>
+
+
+</head>
+
+   <body>
+    <div class="phone-frame">
+        
+<h1 class="page-title">选择你要养的小宠物～</h1>
+        <!-- 后面我们会往这里添加更多内容 -->
+        <div class="pet-row">
+    <!-- 左翅膀 -->
+    <div class="wing left-wing" id="wingLeft">
+        <img src="./images/Lwing.png" alt="左翅膀" class="wing-icon" id="wingLeftIcon">
+    </div>
+
+    <!-- 圆形宠物头像 (保持不变) -->
+    <div class="pet-circle" id="petCircle">
+        <img src="" alt="宠物头像" class="pet-image" id="petImage">
+    </div>
+
+    <!-- 右翅膀 -->
+    <div class="wing right-wing" id="wingRight">
+        <img src="./images/Rwing.png" alt="右翅膀" class="wing-icon" id="wingRightIcon">
+    </div>
+        </div>
+
+ <div class="description-box" id="petDescription">
+    加载中...    <!-- 临时文字，后面会被 JS 替换 -->
+    <div class="hint">👆 双击头像去喂养</div><br>
+   
+        
+
+
+<script>
+    // 宠物列表 —— 你可以任意增加或修改
+    const pets = [
+        
+            
+    {
+        name: '吉伊宝宝',
+        image: './images/jiyi.png',
+        description: '小吉伊·超级黏人，身材较小，圆滚滚的身体，看起来软萌可爱。每天都要摸摸头！',
+        stats: {
+            hunger: 79,
+            thirst: 91,
+            clean: 93,
+            mood: 90,
+            intimacy: 70,
+            age: '婴儿'
+        }
+    },
+    // 如果有更多宠物，按相同格式添加
+
+        
+        {
+            name:'乌萨奇',
+            image: './images/usaqi.png',      // 第二个宠物图片
+            description: '🐰乌萨奇 · 活泼好动，智力高，战斗力强，心理素质强大，总会在朋友遇到危险时挺身而出，提供帮助。',
+            stats: {
+            hunger: 79,
+            thirst: 91,
+            clean: 93,
+            mood: 90,
+            intimacy: 70,
+            age: '婴儿'
+                   }
+        },
+        {
+            name:'小八',
+            image: './images/xiaoba.png',   // 第三个宠物图片
+            description: '🐱小八 · 性格温柔，作者说它不是真正的猫，所以可以吃洋葱和巧克力。',
+            stats: {
+            hunger: 79,
+            thirst: 91,
+            clean: 93,
+            mood: 90,
+            intimacy: 70,
+            age: '婴儿'
+                   }
+        }
+    ];
+
+    // 宠物列表 (上面代码)
+    // ...
+
+    // 获取页面元素
+    const petImage = document.getElementById('petImage');
+    const petDesc = document.getElementById('petDescription');
+    const petCircle = document.getElementById('petCircle');
+    // 获取左右翅膀元素
+const wingLeft = document.getElementById('wingLeft');
+const wingRight = document.getElementById('wingRight');
+// 如果你还需要获取翅膀图片（用于设置src或错误处理），可以保留：
+const wingLeftIcon = document.getElementById('wingLeftIcon');
+const wingRightIcon = document.getElementById('wingRightIcon');
+    // 切换到上一个宠物
+
+
+    // 当前显示第几个宠物（0代表第一个）
+    let currentPetIndex = 0;
+
+    // 定义一个函数：根据索引更新图片和介绍
+    function updatePet(index) {
+        // 防止索引超出范围
+        if (index < 0) index = 0;
+        if (index >= pets.length) index = pets.length - 1;
+
+        const pet = pets[index];
+        petImage.src = pet.image;           // 设置图片路径
+        petDesc.innerText = pet.description; // 设置介绍文字
+    }
+
+    // 初始化显示第一个宠物
+    if (pets.length > 0) {
+        updatePet(0);
+    } else {
+        petDesc.innerText = '还没有宠物数据，请添加！';
+    }
+   function prevPet() {
+    currentPetIndex = (currentPetIndex - 1 + pets.length) % pets.length; // 循环
+    updatePet(currentPetIndex);
+}
+   function nextPet() {
+    currentPetIndex = (currentPetIndex + 1) % pets.length;
+    updatePet(currentPetIndex);
+}
+
+// 左翅膀点击 -> 上一个宠物
+wingLeft.addEventListener('click', function() {
+    prevPet();
+});
+
+// 右翅膀点击 -> 下一个宠物
+wingRight.addEventListener('click', function() {
+    nextPet();
+});
+
+petCircle.addEventListener('dblclick', function() {
+    // 获取当前宠物索引
+    const petId = currentPetIndex;
+    // 跳转到喂养页面，并附带参数 ?pet=0 或 1 或 2
+    window.location.href = 'feed.html?pet=' + petId;
+});
+
+</script>
+
+
+</body>
+
+</html>
